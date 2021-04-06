@@ -34,8 +34,6 @@ def spotify_callback(request, format=None):
         'client_secret': CLIENT_SECRET
     }).json()
 
-    print(str(response))
-
     access_token = response.get('access_token')
     token_type = response.get('token_type')
     refresh_token = response.get('refresh_token')
@@ -56,6 +54,7 @@ class IsAuthenticated(APIView):
         is_authenticated = is_spotify_authenticated(
             self.request.session.session_key)
         return Response({'status': is_authenticated}, status=status.HTTP_200_OK)
+
 
 class CurrentSong(APIView):
     def get(self, request, format=None):
@@ -80,7 +79,7 @@ class CurrentSong(APIView):
         song_id = item.get('id')
 
         artist_string = ""
-        
+
         for i, artist in enumerate(item.get('artists')):
             if i > 0:
                 artist_string += ", "
@@ -92,7 +91,7 @@ class CurrentSong(APIView):
             'artist': artist_string,
             'duration': duration,
             'time': progress,
-            'image': album_cover,
+            'image_url': album_cover,
             'is_playing': is_playing,
             'votes': 0,
             'id': song_id

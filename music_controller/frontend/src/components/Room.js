@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import {
-  Grid,
-  Button,
-  Typography,
-} from "@material-ui/core";
+import { Grid, Button, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
-import MusicPlayer from "./MusicPlayer"
+import MusicPlayer from "./MusicPlayer";
 
 export default class Room extends Component {
   constructor(props) {
@@ -16,7 +12,7 @@ export default class Room extends Component {
       isHost: false,
       showSettings: false,
       spotifyAuthenticated: false,
-      song: {}
+      song: {},
     };
     this.roomCode = this.props.match.params.roomCode;
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);

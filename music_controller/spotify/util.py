@@ -10,7 +10,7 @@ BASE_URL = "https://api.spotify.com/v1/me/"
 
 def get_user_tokens(session_id):
     user_tokens = SpotifyToken.objects.filter(user=session_id)
-    print(user_tokens)
+
     if user_tokens.exists():
         return user_tokens[0]
     else:
@@ -56,8 +56,6 @@ def refresh_spotify_token(session_id):
         'client_secret': CLIENT_SECRET
     }).json()
 
-    print("This is a error: " + str(response))
-
     access_token = response.get('access_token')
     token_type = response.get('token_type')
     expires_in = response.get('expires_in')
@@ -66,9 +64,11 @@ def refresh_spotify_token(session_id):
     update_or_create_user_tokens(
         session_id, access_token, token_type, expires_in, refresh_token)
 
+
 def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
     tokens = get_user_tokens(session_id)
-    headers = {'Content-Type': 'application/json', 'Authorization': "Bearer " + tokens.access_token}
+    headers = {'Content-Type': 'application/json',
+               'Authorization': "Bearer " + tokens.access_token}
 
     if post_:
         post(BASE_URL + endpoint, headers=headers)
